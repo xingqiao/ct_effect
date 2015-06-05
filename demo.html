@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1" />
+<title>图片动画效果</title>
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<style type="text/css">
+body{background:#666}
+.wrap{position:fixed;top:0;right:0;bottom:0;left:0;padding:20px}
+.pic{height:100%;}
+.pic img{display:block;max-width:100%;max-height:100%;margin:0 auto}
+.mod_loading{position:absolute;height:100%;left:0;top:0;width:100%;z-index:100;background-color:#b9ccd5;display:-webkit-box;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.mod_loading .content{text-align:center;-webkit-box-flex:1;flex:1;margin:0 80px}
+.mod_loading .content .progress{height:13px;padding:2px;border-radius:17px;border-radius:17px;background-color:#242a39}
+.mod_loading .content .progress span{display:block;height:13px;border-radius:13px;border-radius:13px;background-color:#65cfd5}
+.mod_loading .content p{line-height:34px;color:#5f696a}
+.menu{position:relative;position:fixed;bottom:0;left:0;font-size:.8em}
+.menu select,.menu button{padding:5px}
+.menu div{display:inline-block;}
+.menu .item{position:relative;}
+.menu .item>span{position:absolute;line-height:29px;left:.5em;}
+.menu .item>select{padding-left:5em;}
+.tip{position:fixed;top:0;right:0;display:block;padding:5px;font-size:.8em;background:rgba(255,255,255,.3);}
+@media screen and (max-width:500px)  {
+	.wrap{padding:0;}
+}
+</style>
+</head>
+
+<div class="wrap">
+	<div class="pic">
+		<img id="cover" />
+	</div>
+	<span class="tip">点击或滑动触发动画</span>
+</div>
+
+<div class="menu">
+	<select id="js_efname"></select>
+	<div id="js_opts"></div>
+</div>
+
+<div class="mod_loading">
+	<div class="content">
+		<div class="progress"><span style="width:0;-webkit-transition:width .5s;transition:width .5s"></span></div>
+		<p>加载中...</p>
+	</div>
+</div>
+
+<script type="text/javascript" src="./ct_effect.js"></script>
+<!-- 玻璃破碎 -->
+<script type="text/javascript" src="./ct_effect_brokenglass.js"></script>
+<!-- 百叶窗 -->
+<script type="text/javascript" src="./ct_effect_blinds.js"></script>
+<!-- 溶解 -->
+<script type="text/javascript" src="./ct_effect_dissolve.js"></script>
+<!-- 平移 -->
+<script type="text/javascript" src="./ct_effect_translate.js"></script>
+<!-- 立方体 -->
+<script type="text/javascript" src="./ct_effect_cube.js"></script>
+<script type="text/javascript">
+var $ = function(s){return document.querySelector(s)};
+var $$ = function(s){return document.querySelectorAll(s)};
+function encodeHTML(s, br) {
+	return s == null ? '' : String(s)
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/ /g, '&nbsp;')
+		.replace(/\'/g, '&apos;')
+		.replace(/\"/g, '&quot;')
+		.replace(/\r?\n/g, br != null ? br : ' ');
+};
+function getParameter(name, href) {
+	try {
+		var r = new RegExp('(\\?|#|&)' + name + '=([^&#]*)(&|#|$)'),
+			m = (href || location.href).match(r);
+		return (!m ? '' : m[2]);
+	} catch (ex) {
+		console.log(ex.stack);
+		return '';
+	}
+};
+function simulateEvent(o, type) {
+	var e;
+	if (document.createEvent) { // DOM Level 2 standard
+		e = document.createEvent('Events');
+		e.initEvent(type, true, true);
+		o.dispatchEvent(e);
+	} else if (o.fireEvent) { // IE
+		o.fireEvent('onclick');
+	}
+};
+var imglist = [
+	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432027474009126350.jpg',
+	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432027858747126350.jpg',
+	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432035906703126350.jpg',
+	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432035984898126350.jpg',
+	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432036035333126350.jpg',
+	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg',
+	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038791695126290.jpg',
+	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038814553126290.jpg'
+];
+function preloading(cb) {
+	var urls = imglist, loaded = 0, pos = $('.progress>span'), timer;
+	imglist = [];
+	if (urls.length > 0) {
+		for (var i = 0; i < urls.length; i++) {
+			var img = new Image();
+			img.onload = img.onerror = img.onabort = _update;
+			img.src = urls[i];
+		}
+		timer = setTimeout(_end, 10000);
+	} else {
+		_end();
+	}
+	function _update(e) {
+		if (e.type == 'load') {
+			imglist.push(this.src);
+		}
+		loaded++;
+		pos.style.width = (loaded / urls.length * 100) + '%';
+		if (loaded >= urls.length) {
+			_end();
+		}
+	};
+	function _end() {
+		timer && clearTimeout(timer);
+		$('.mod_loading').style.display = 'none';
+		cb && cb();
+	};
+};
+
+var map_ef = {
+	'brokenglass': {
+		params: {
+			animate: '玻璃破碎',	// brokenglass
+			target: imglist[0],
+			duration: 1500,
+			audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3'
+		},
+		opts: {
+			fall: {
+				title: '掉落方式',
+				data: {
+					'自由落体': 1,
+					'散开': 0
+				}
+			}
+		}
+	},
+	'blinds': {
+		params: {
+			animate: '百叶窗',	// blinds
+			target: imglist[0],
+			audio: 'http://i.gtimg.cn/music/common/upload/ct/effect_01.m4a',
+			count: 15,
+			// direct: 'right',
+			// origin: 'edge'
+		},
+		opts: {
+			origin: {
+				title: '翻转方式',
+				data: {
+					'点击处开始': 'location',
+					'边缘开始': 'edge'
+				}
+			}
+		}
+	},
+	'dissolve': {
+		params: {
+			animate: '溶解',	// dissolve
+			target: imglist[0],
+			audio: 'http://i.gtimg.cn/music/common/upload/ct/effect_01.m4a',
+			size: 10,
+			duration: 1000
+		},
+		opts: {
+			size: {
+				title: '颗粒大小',
+				data: {
+					'10': '10',
+					'15': '15',
+					'20': '20',
+					'25': '25',
+					'30': '30',
+					'50': '50'
+				}
+			}
+		}
+	},
+	'translate': {
+		params: {
+			animate: '平移',	// translate
+			target: imglist[0],
+			audio: 'http://i.gtimg.cn/music/common/upload/ct/effect_01.m4a',
+			'timing-function': 'ease-in',
+			mode: '3d',
+			// direct: 'left',
+			duration: 1000
+		},
+		opts: {
+			mode: {
+				title: '模式',
+				data: {
+					'3d': '3d',
+					'2d': '2d'
+				}
+			}
+		}
+	},
+	'cube': {
+		params: {
+			animate: '立方体',	// cube
+			target: imglist[0],
+			// direct: 'left',
+			duration: 1000
+		},
+		opts: {
+			direct: {
+				title: '旋转方向',
+				data: {
+					'自动': null,
+					'向左': 'left',
+					'向右': 'right',
+					'向上': 'top',
+					'向下': 'bottom'
+				}
+			}
+		}
+	}
+};
+function pageInit() {
+	var img = $('.pic img'), cur = imglist.length * Math.random() | 0, ef;
+	img.src = imglist[cur];
+	var efname = $('#js_efname'), efopts = $('#js_opts'), h = '', df = getParameter('ef');
+	map_ef[df] || (df = 'fadeout');
+	ef = map_ef[df] || {};
+	h += '<option value="fadeout">渐隐</option>';
+	for (var p in map_ef) {
+		h += '<option value="' + encodeHTML(p) + '">' + encodeHTML(map_ef[p].params.animate) + '</option>';
+	}
+	efname.innerHTML = h;
+	efname.value = df;
+	efname.addEventListener('change', function(){
+		ef = map_ef[this.value] || {};
+		if (ef && ef.opts) {
+			var h = '';
+			for (var p in ef.opts) {
+				var o = ef.opts[p];
+				h += '<label class="item"><span>' + encodeHTML(o.title) + ':</span><select data-key="' + encodeHTML(p) + '">'
+				for (var q in o.data) {
+					h += '<option value="' + encodeHTML(o.data[q]) + '">' + encodeHTML(q) + '</option>';
+				}
+				h += '</select></label>';
+			}
+			efopts.innerHTML = h;
+		}
+		efopts.style.display = ef.opts ? '' : 'none';
+		initEf();
+	});
+	simulateEvent(efname, 'change');
+	efopts.addEventListener('change', function(e) {
+		var key = e.target.getAttribute('data-key');
+		if (key) {
+			ef && ef.params && (ef.params[key] = e.target.value);
+		}
+		initEf();
+	});
+
+	function initEf() {
+		next = (imglist.length - 1) * Math.random() | 0;
+		next == cur && (next = (next + 1) % imglist.length);
+		var params = ef && ef.params ? JSON.parse(JSON.stringify(ef.params)) : {};
+		params.target = imglist[next];
+		img.initEffect(params).then(function() {
+			cur = next;
+			initEf();
+			console.log('执行成功：')
+		})
+	};
+	initEf();
+
+	// 直接执行动画
+	// img.addEventListener('click', function(e){
+	// 	var next = (imglist.length - 1) * Math.random() | 0;
+	// 	next == cur && (next++);
+	// 	ef.x = e.offsetX;
+	// 	ef.y = e.offsetY;
+	// 	img.execEffect(ef).then(function() {
+	// 		cur = next;
+	// 		console.log('执行成功')
+	// 	})
+	// })
+};
+preloading(pageInit);
+
+// 注册动画
+// addImgEffect('test', function(callback) {
+// 	[动画处理逻辑]
+// 	setTimeout(callback, 800);
+// })
+
+// 初始化动画
+// img.initEffect({
+// 	animate: 'test',
+// 	target: imglist[next],
+// 	audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3',
+// 	fall: false
+// }).then(function() {
+// 	console.log('执行成功')
+// })
+
+// 直接执行动画
+// img.execEffect({
+// 	animate: 'test',
+// 	target: imglist[next],
+// 	audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3',
+// 	x: e.offsetX,
+// 	y: e.offsetY,
+// 	fall: false
+// }).then(function() {
+// 	console.log('执行成功')
+// })
+
+</script>
+</body>
+</html>
