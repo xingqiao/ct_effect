@@ -7,9 +7,10 @@
 <meta name="format-detection" content="telephone=no" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 <style type="text/css">
-body{background:#666}
+body{background:#666;-webkit-user-select:none;-ms-user-select:none;user-select:none}
 .wrap{position:fixed;top:0;right:0;bottom:0;left:0;padding:20px}
-.pic{height:100%;}
+.pic{height:100%;text-align:center}
+.pic_body{height:100%;display:inline-block}
 .pic img{display:block;max-width:100%;max-height:100%;margin:0 auto}
 .mod_loading{position:absolute;height:100%;left:0;top:0;width:100%;z-index:100;background-color:#b9ccd5;display:-webkit-box;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
 .mod_loading .content{text-align:center;-webkit-box-flex:1;flex:1;margin:0 80px}
@@ -22,7 +23,14 @@ body{background:#666}
 .menu .item{position:relative;}
 .menu .item>span{position:absolute;line-height:29px;left:.5em;}
 .menu .item>select{padding-left:5em;}
-.tip{position:fixed;top:0;right:0;display:block;padding:5px;font-size:.8em;background:rgba(255,255,255,.3);}
+.tip{position:fixed;top:0;right:0;display:block;padding:5px;font-size:.8em;background:rgba(255,255,255,.4);}
+.eflist{position:fixed;width:10em;top:.5em;right:0;display:block;font-size:.8em;}
+.eflist ul{padding:0;margin:0}
+.eflist a,.eflist li{position:relative;color:#000;text-decoration:none;display:block;padding:.5em;text-align:center;background:rgba(255,255,255,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:1px;transition:height;}
+.eflist a{background:rgba(255,255,255,.5);}
+.eflist a:hover{background:rgba(255,255,255,.7);}
+.eflist a:active{background:rgba(255,255,255,.9);}
+.eflist li>i{position:absolute;left:0;top:0;bottom:0;width:0;background-color:rgba(0,0,255,.4);-webkit-transition:width .8s;transition:width .8s;}
 @media screen and (max-width:500px)  {
 	.wrap{padding:0;}
 }
@@ -31,9 +39,12 @@ body{background:#666}
 
 <div class="wrap">
 	<div class="pic">
-		<img id="cover" />
+		<div class="pic_body"><img id="cover" /></div>
 	</div>
-	<span class="tip">点击或滑动触发动画</span>
+	<div class="eflist">
+		<a class="js_clear" href="jacascript:;">在图片上点击或滑动</a>
+		<ul></ul>
+	</div>
 </div>
 
 <div class="menu">
@@ -60,50 +71,51 @@ body{background:#666}
 <!-- 立方体 -->
 <script type="text/javascript" src="./ct_effect_cube.js"></script>
 <script type="text/javascript">
-var $ = function(s){return document.querySelector(s)};
-var $$ = function(s){return document.querySelectorAll(s)};
+var doc = document;
+var $ = function(s, p){return (p && p.querySelector ? p : doc).querySelector(s)};
+var $$ = function(s, p){return (p && p.querySelectorAll ? p : doc).querySelectorAll(s)};
 function encodeHTML(s, br) {
-	return s == null ? '' : String(s)
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/ /g, '&nbsp;')
-		.replace(/\'/g, '&apos;')
-		.replace(/\"/g, '&quot;')
-		.replace(/\r?\n/g, br != null ? br : ' ');
+	return s == null ? "" : String(s)
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/ /g, "&nbsp;")
+		.replace(/\'/g, "&apos;")
+		.replace(/\"/g, "&quot;")
+		.replace(/\r?\n/g, br != null ? br : " ");
 };
 function getParameter(name, href) {
 	try {
-		var r = new RegExp('(\\?|#|&)' + name + '=([^&#]*)(&|#|$)'),
+		var r = new RegExp("(\\?|#|&)" + name + "=([^&#]*)(&|#|$)"),
 			m = (href || location.href).match(r);
-		return (!m ? '' : m[2]);
+		return (!m ? "" : m[2]);
 	} catch (ex) {
 		console.log(ex.stack);
-		return '';
+		return "";
 	}
 };
 function simulateEvent(o, type) {
 	var e;
-	if (document.createEvent) { // DOM Level 2 standard
-		e = document.createEvent('Events');
+	if (doc.createEvent) { // DOM Level 2 standard
+		e = doc.createEvent("Events");
 		e.initEvent(type, true, true);
 		o.dispatchEvent(e);
 	} else if (o.fireEvent) { // IE
-		o.fireEvent('onclick');
+		o.fireEvent("onclick");
 	}
 };
 var imglist = [
-	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432027474009126350.jpg',
-	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432027858747126350.jpg',
-	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432035906703126350.jpg',
-	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432035984898126350.jpg',
-	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432036035333126350.jpg',
-	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg',
-	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038791695126290.jpg',
-	'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038814553126290.jpg'
+	"http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432027474009126350.jpg",
+	"http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432027858747126350.jpg",
+	"http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432035906703126350.jpg",
+	"http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432035984898126350.jpg",
+	"http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432036035333126350.jpg",
+	"http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg",
+	"http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038791695126290.jpg",
+	"http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038814553126290.jpg"
 ];
 function preloading(cb) {
-	var urls = imglist, loaded = 0, pos = $('.progress>span'), timer;
+	var urls = imglist, loaded = 0, pos = $(".progress>span"), timer;
 	imglist = [];
 	if (urls.length > 0) {
 		for (var i = 0; i < urls.length; i++) {
@@ -116,138 +128,143 @@ function preloading(cb) {
 		_end();
 	}
 	function _update(e) {
-		if (e.type == 'load') {
+		if (e.type == "load") {
 			imglist.push(this.src);
 		}
 		loaded++;
-		pos.style.width = (loaded / urls.length * 100) + '%';
+		pos.style.width = (loaded / urls.length * 100) + "%";
 		if (loaded >= urls.length) {
 			_end();
 		}
 	};
 	function _end() {
 		timer && clearTimeout(timer);
-		$('.mod_loading').style.display = 'none';
+		$(".mod_loading").style.display = "none";
 		cb && cb();
 	};
 };
 
 var map_ef = {
-	'brokenglass': {
+	"fadeout": {
 		params: {
-			animate: '玻璃破碎',	// brokenglass
+			animate: "渐隐",
+			target: imglist[0]
+		}
+	},
+	"brokenglass": {
+		params: {
+			animate: "玻璃破碎",	// brokenglass
 			target: imglist[0],
 			duration: 1500,
-			audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3'
+			audio: "http://i.gtimg.cn/music/common/upload/ct/broken.mp3"
 		},
 		opts: {
 			fall: {
-				title: '掉落方式',
+				title: "掉落方式",
 				data: {
-					'自由落体': 1,
-					'散开': 0
+					"自由落体": 1,
+					"散开": 0
 				}
 			}
 		}
 	},
-	'blinds': {
+	"blinds": {
 		params: {
-			animate: '百叶窗',	// blinds
+			animate: "百叶窗",	// blinds
 			target: imglist[0],
-			audio: 'http://i.gtimg.cn/music/common/upload/ct/effect_01.m4a',
+			audio: "http://i.gtimg.cn/music/common/upload/ct/effect_01.m4a",
 			count: 15,
-			// direct: 'right',
-			// origin: 'edge'
+			// direct: "right",
+			// origin: "edge"
 		},
 		opts: {
 			origin: {
-				title: '翻转方式',
+				title: "翻转方式",
 				data: {
-					'点击处开始': 'location',
-					'边缘开始': 'edge'
+					"点击处开始": "location",
+					"边缘开始": "edge"
 				}
 			}
 		}
 	},
-	'dissolve': {
+	"dissolve": {
 		params: {
-			animate: '溶解',	// dissolve
+			animate: "溶解",	// dissolve
 			target: imglist[0],
-			audio: 'http://i.gtimg.cn/music/common/upload/ct/effect_01.m4a',
+			audio: "http://i.gtimg.cn/music/common/upload/ct/effect_01.m4a",
 			size: 10,
 			duration: 1000
 		},
 		opts: {
 			size: {
-				title: '颗粒大小',
+				title: "颗粒大小",
 				data: {
-					'10': '10',
-					'15': '15',
-					'20': '20',
-					'25': '25',
-					'30': '30',
-					'50': '50'
+					"10": "10",
+					"15": "15",
+					"20": "20",
+					"25": "25",
+					"30": "30",
+					"50": "50"
 				}
 			}
 		}
 	},
-	'translate': {
+	"translate": {
 		params: {
-			animate: '平移',	// translate
+			animate: "平移",	// translate
 			target: imglist[0],
-			audio: 'http://i.gtimg.cn/music/common/upload/ct/effect_01.m4a',
-			'timing-function': 'ease-in',
-			mode: '3d',
-			// direct: 'left',
+			audio: "http://i.gtimg.cn/music/common/upload/ct/effect_01.m4a",
+			"timing-function": "ease-in",
+			mode: "3d",
+			// direct: "left",
 			duration: 1000
 		},
 		opts: {
 			mode: {
-				title: '模式',
+				title: "模式",
 				data: {
-					'3d': '3d',
-					'2d': '2d'
+					"3d": "3d",
+					"2d": "2d"
 				}
 			}
 		}
 	},
-	'cube': {
+	"cube": {
 		params: {
-			animate: '立方体',	// cube
+			animate: "立方体",	// cube
 			target: imglist[0],
-			// direct: 'left',
+			// direct: "left",
 			duration: 1000
 		},
 		opts: {
 			direct: {
-				title: '旋转方向',
+				title: "旋转方向",
 				data: {
-					'自动': null,
-					'向左': 'left',
-					'向右': 'right',
-					'向上': 'top',
-					'向下': 'bottom'
+					"自动": null,
+					"向左": "left",
+					"向右": "right",
+					"向上": "top",
+					"向下": "bottom"
 				}
 			}
 		}
 	}
 };
 function pageInit() {
-	var img = $('.pic img'), cur = imglist.length * Math.random() | 0, ef;
+	var img = $(".pic img"), cur = imglist.length * Math.random() | 0, ef;
 	img.src = imglist[cur];
-	var efname = $('#js_efname'), efopts = $('#js_opts'), h = '', df = getParameter('ef');
-	map_ef[df] || (df = 'fadeout');
+	var efname = $("#js_efname"), efopts = $("#js_opts"), h = "", df = getParameter("ef");
+	map_ef[df] || (df = "fadeout");
 	ef = map_ef[df] || {};
-	h += '<option value="fadeout">渐隐</option>';
 	for (var p in map_ef) {
 		h += '<option value="' + encodeHTML(p) + '">' + encodeHTML(map_ef[p].params.animate) + '</option>';
 	}
 	efname.innerHTML = h;
 	efname.value = df;
-	efname.addEventListener('change', function(){
+	efname.addEventListener("change", function(){
 		ef = map_ef[this.value] || {};
 		if (ef && ef.opts) {
-			var h = '';
+			var h = "";
 			for (var p in ef.opts) {
 				var o = ef.opts[p];
 				h += '<label class="item"><span>' + encodeHTML(o.title) + ':</span><select data-key="' + encodeHTML(p) + '">'
@@ -258,71 +275,129 @@ function pageInit() {
 			}
 			efopts.innerHTML = h;
 		}
-		efopts.style.display = ef.opts ? '' : 'none';
-		initEf();
+		efopts.style.display = ef.opts ? "" : "none";
+		typeof initEf == "function" && initEf();
 	});
-	simulateEvent(efname, 'change');
-	efopts.addEventListener('change', function(e) {
-		var key = e.target.getAttribute('data-key');
+	simulateEvent(efname, "change");
+	efopts.addEventListener("change", function(e) {
+		var key = e.target.getAttribute("data-key");
 		if (key) {
 			ef && ef.params && (ef.params[key] = e.target.value);
 		}
-		initEf();
+		typeof initEf == "function" && initEf();
 	});
 
-	function initEf() {
-		next = (imglist.length - 1) * Math.random() | 0;
+	// function initEf() {
+	// 	var next = (imglist.length - 1) * Math.random() | 0;
+	// 	next == cur && (next = (next + 1) % imglist.length);
+	// 	var params = ef && ef.params ? JSON.parse(JSON.stringify(ef.params)) : {};
+	// 	params.target = imglist[next];
+	// 	img.initEffect(params).then(function() {
+	// 		cur = next;
+	// 		initEf();
+	// 		console.log("执行成功：")
+	// 	})
+	// };
+	// initEf();
+
+	// 直接执行动画
+	// img.addEventListener("click", function(e){
+	// 	var next = (imglist.length - 1) * Math.random() | 0;
+	// 	next == cur && (next = (next + 1) % imglist.length);
+	// 	var params = ef && ef.params ? JSON.parse(JSON.stringify(ef.params)) : {};
+	// 	params.target = imglist[next];
+	// 	params.x = e.offsetX;
+	// 	params.y = e.offsetY;
+	// 	cur = next;
+	// 	img.execEffect(params).then(function() {
+	// 		console.log("执行成功：")
+	// 	})
+	// });
+
+	var efList = [], efNo = 0, oList = $(".eflist ul");
+	oList.innerHTML = "";
+	function doEffect(ani) {
+		if (ani != null) {
+			ani.no = efNo++;
+			efList.push(ani);
+			ani.li = doc.createElement("li");
+			ani.li.innerHTML = "<span>[" + ani.no + "]" + (ani.animate || "动画") + "</span><i></i>";
+			oList.appendChild(ani.li);
+			if (efList.length > 1) {
+				return;
+			}
+			$(".js_clear").innerHTML = "X 清空动画列表";
+		}
+		if (!efList.length) {
+			$(".js_clear").innerHTML = "在图片上点击或滑动";
+			return;
+		}
+		ani = efList[0];
+		setTimeout(function(){
+			var i = $("i", ani.li);
+			i && (i.style.width = "90%");
+		}, 0);
+		img.execEffect(ani).then(function() {
+			var ani = efList.shift();
+			var i = $("i", ani.li);
+			if (i) {
+				i.style.webkitTransitionDuration = i.style.transitionDuration = ".1s";
+				setTimeout(function(){
+					i.style.width = "100%";
+				}, 0);
+			}
+			setTimeout(function(){
+				oList.removeChild(ani.li);
+			}, 150);
+			doEffect();
+		})
+	};
+	$(".pic_body").addEventListener("click", function(e){
+		var next = (imglist.length - 1) * Math.random() | 0;
 		next == cur && (next = (next + 1) % imglist.length);
 		var params = ef && ef.params ? JSON.parse(JSON.stringify(ef.params)) : {};
 		params.target = imglist[next];
-		img.initEffect(params).then(function() {
-			cur = next;
-			initEf();
-			console.log('执行成功：')
-		})
-	};
-	initEf();
-
-	// 直接执行动画
-	// img.addEventListener('click', function(e){
-	// 	var next = (imglist.length - 1) * Math.random() | 0;
-	// 	next == cur && (next++);
-	// 	ef.x = e.offsetX;
-	// 	ef.y = e.offsetY;
-	// 	img.execEffect(ef).then(function() {
-	// 		cur = next;
-	// 		console.log('执行成功')
-	// 	})
-	// })
+		params.x = e.offsetX;
+		params.y = e.offsetY;
+		cur = next;
+		doEffect(params);
+	});
+	$(".js_clear").addEventListener("click", function(e){
+		var list = efList.splice(1);
+		for (var i = 0; i < list.length; i++) {
+			var ani = list[i];
+			ani.li && oList.removeChild(ani.li);
+		};
+	});
 };
 preloading(pageInit);
 
 // 注册动画
-// addImgEffect('test', function(callback) {
+// addImgEffect("test", function(callback) {
 // 	[动画处理逻辑]
 // 	setTimeout(callback, 800);
 // })
 
 // 初始化动画
 // img.initEffect({
-// 	animate: 'test',
+// 	animate: "test",
 // 	target: imglist[next],
-// 	audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3',
+// 	audio: "http://i.gtimg.cn/music/common/upload/ct/broken.mp3",
 // 	fall: false
 // }).then(function() {
-// 	console.log('执行成功')
+// 	console.log("执行成功")
 // })
 
 // 直接执行动画
 // img.execEffect({
-// 	animate: 'test',
+// 	animate: "test",
 // 	target: imglist[next],
-// 	audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3',
+// 	audio: "http://i.gtimg.cn/music/common/upload/ct/broken.mp3",
 // 	x: e.offsetX,
 // 	y: e.offsetY,
 // 	fall: false
 // }).then(function() {
-// 	console.log('执行成功')
+// 	console.log("执行成功")
 // })
 
 </script>
