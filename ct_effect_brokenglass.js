@@ -160,14 +160,14 @@
 	};
 	function _easeIn(t, b, c, d) {
 		return c * (t /= d) * t + b;
-	}
+	};
 	function _break(params, callback) {
 		var crack = params.crack > 5 ? params.crack : opts.crack,
 			turn = params.turn > 3 ? params.turn : opts.turn,
 			duration = params.duration > 500 ? params.duration : opts.duration,
 			fall = params.fall != null ? params.fall : opts.fall;
 		// 用canvas加载图片
-		var c = params.canvas, ctx = c.getContext('2d'), width = params.width, height = params.height;
+		var c = params.canvas, ctx = c.getContext("2d"), width = params.width, height = params.height;
 		// IE下如果点是浮点数，会导致canvas在绘图时报IndexSizeError异常
 		var x = (params.x > 0 ? params.x : width / 2) | 0, y = (params.y > 0 ? params.y : height / 2) | 0;
 		// 计算破裂碎片
@@ -193,12 +193,12 @@
 		}
 		// 剔除部分视图外的碎片
 		chips = _cutChips(chips, width, height);
-		// console.log('碎片个数：' + chips.length);
+		// console.log("碎片个数：" + chips.length);
 		// 提取碎片图像
 		var fragment = document.createDocumentFragment();
 		var _delay = 0, _chips = [];
 		for (var p = 0, l = chips.length; p < l; p++) {
-			var ps = chips[p], sc = document.createElement('canvas'), r = _getRect(ps, width, height);
+			var ps = chips[p], sc = document.createElement("canvas"), r = _getRect(ps, width, height);
 			// 剔除掉无效的碎片
 			if (r.w == 0 || r.h == 0) {
 				continue;
@@ -231,14 +231,14 @@
 			// 将碎片绘制到内存中
 			sc.width = r.w;
 			sc.height = r.h;
-			var sctx = sc.getContext('2d');
+			var sctx = sc.getContext("2d");
 			sctx.beginPath();
 			sctx.moveTo(ps[ps.length - 1][0] - r.x, ps[ps.length - 1][1] - r.y);
 			for (var i = 0; i < ps.length; i++) {
 				sctx.lineTo(ps[i][0] - r.x, ps[i][1] - r.y);
 			}
 			sctx.closePath();
-			sctx.strokeStyle = 'rgba(255,255,255,.3)';
+			sctx.strokeStyle = "rgba(255,255,255,.3)";
 			sctx.lineWidth = 2;
 			sctx.stroke();
 			sctx.clip();
@@ -280,7 +280,7 @@
 				}
 			}
 			// 强制触发Repaint
-			c.style.color = c.style.color ? '' : '#fff';
+			c.style.color = c.style.color ? "" : "#fff";
 			if (process < end) {
 				requestAnimationFrame(_drop);
 				// setTimeout(_drop, 60);
@@ -290,7 +290,7 @@
 		};
 		_drop();
 	};
-	window.addImgEffect && addImgEffect(['玻璃破碎', 'brokenglass'], function(callback) {
+	window.addImgEffect && addImgEffect(["玻璃破碎", "brokenglass"], function(callback) {
 		_break(this, callback);
 	})
 })();

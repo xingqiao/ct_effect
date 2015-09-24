@@ -16,7 +16,7 @@
 		duration: 2000	// 持续时间
 	};
 	function _dissolve(params, callback) {
-		var c = params.canvas, ctx = c.getContext('2d'), w = params.width, h = params.height;
+		var c = params.canvas, ctx = c.getContext("2d"), w = params.width, h = params.height;
 		var minSize = Math.max(opts.size, Math.sqrt(w * h / 2000) | 0),	// 碎片尺寸大于10且总数小于2000
 			size = params.size > minSize ? params.size : minSize,
 			duration = params.duration > 500 ? params.duration : opts.duration,
@@ -43,7 +43,7 @@
 			}
 			tMoniter = tnow;
 			// 强制触发Repaint
-			c.style.color = c.style.color ? '' : '#fff';
+			c.style.color = c.style.color ? "" : "#fff";
 			if (pos < chips.length) {
 				for (var i = pos; i < chips.length; i++) {
 					var cp = chips[i];
@@ -52,7 +52,7 @@
 						if (process - cp.start > 5) {
 							pos = i + 1;
 						} else {
-							ctx.fillStyle = 'rgba(255,255,255,' + (1 - (process - cp.start) / 10) + ')';
+							ctx.fillStyle = "rgba(255,255,255," + (1 - (process - cp.start) / 10) + ")";
 							ctx.fillRect(cp.x, cp.y, size, size);
 						}
 					} else {
@@ -66,7 +66,7 @@
 		};
 		_start();
 	};
-	window.addImgEffect && addImgEffect(['溶解', 'dissolve'], function(callback) {
+	window.addImgEffect && addImgEffect(["溶解", "dissolve"], function(callback) {
 		_dissolve(this, callback);
 	})
 })();

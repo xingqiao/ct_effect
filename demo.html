@@ -59,6 +59,18 @@ body{background:#666;-webkit-user-select:none;-ms-user-select:none;user-select:n
 	</div>
 </div>
 
+<script type="text/javascript">
+var list = [
+	"./ct_effect.js",
+	"./ct_effect_brokenglass.js",	// 玻璃破碎
+	"./ct_effect_blinds.js",		// 百叶窗
+	"./ct_effect_blinds.js",		// 溶解
+	"./ct_effect_translate.js",		// 平移
+	"./ct_effect_cube.js",			// 立方体
+	"./ct_effect_star.js",			// 星星
+];
+document.write('<script type="text/javascript" charset="utf-8" src="http:\/\/imgcache.gtimg.cn\/c\/='+ list.join(',') +'?max_age=300068888" crossOrigin><\/script>');
+</script>
 <script type="text/javascript" src="./ct_effect.js"></script>
 <!-- 玻璃破碎 -->
 <script type="text/javascript" src="./ct_effect_brokenglass.js"></script>
@@ -70,6 +82,8 @@ body{background:#666;-webkit-user-select:none;-ms-user-select:none;user-select:n
 <script type="text/javascript" src="./ct_effect_translate.js"></script>
 <!-- 立方体 -->
 <script type="text/javascript" src="./ct_effect_cube.js"></script>
+<!-- 星星 -->
+<script type="text/javascript" src="./ct_effect_star.js"></script>
 <script type="text/javascript">
 var doc = document;
 var $ = function(s, p){return (p && p.querySelector ? p : doc).querySelector(s)};
@@ -245,6 +259,23 @@ var map_ef = {
 					"向右": "right",
 					"向上": "top",
 					"向下": "bottom"
+				}
+			}
+		}
+	},
+	"star": {
+		params: {
+			animate: "星星",	// star
+			target: imglist[0],
+			duration: 1000
+		},
+		opts: {
+			count: {
+				title: "星星数量",
+				data: {
+					"少": "4",
+					"默认": "8",
+					"多": "12"
 				}
 			}
 		}

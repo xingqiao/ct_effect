@@ -3,24 +3,24 @@
  * 调用方式
  * 	1. 初始化方式调用，在点击时自动执行
  * 		img.initEffect({
- * 			animate: 'fadeout',	// 动画类型
- * 			target: 'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg',	// 替换的新图片
- * 			audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3'	// 音效
+ * 			animate: "fadeout",	// 动画类型
+ * 			target: "http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg",	// 替换的新图片
+ * 			audio: "http://i.gtimg.cn/music/common/upload/ct/broken.mp3"	// 音效
  * 		}).then(function() {
- * 			console.log('执行成功')
+ * 			console.log("执行成功")
  * 		})
  * 	2. 手动触发调用
  * 		img.execEffect({
- * 			animate: 'fadeout',	// 动画类型
- * 			target: 'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg',	// 替换的新图片
- * 			audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3',	// 音效
+ * 			animate: "fadeout",	// 动画类型
+ * 			target: "http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg",	// 替换的新图片
+ * 			audio: "http://i.gtimg.cn/music/common/upload/ct/broken.mp3",	// 音效
  * 			x: e.offsetX,	// x坐标
  * 			y: e.offsetY	// y坐标
  * 		}).then(function() {
- * 			console.log('执行成功')
+ * 			console.log("执行成功")
  * 		})
  * 添加特效动画
- * 	window.addImgEffect('动画名', function(callback){[动画处理函数]})
+ * 	window.addImgEffect("动画名", function(callback){[动画处理函数]})
  * 		this.canvas	加载当前图片
  * 		this.img	加载下一张图片
  * 		this.parentElement
@@ -56,7 +56,7 @@
 	var _ef = {}, opts = [], curIndex, timer;
 	_ef.fadeout = function(callback) {
 		var o = this;
-		o.canvas.style.transition = o.canvas.style.webkitTransition = 'opacity .8s';
+		o.canvas.style.transition = o.canvas.style.webkitTransition = "opacity .8s";
 		setTimeout(function(){o.canvas.style.opacity = 0}, 0);
 		setTimeout(callback, 800);
 	};
@@ -81,7 +81,7 @@
 	};
 	// 执行动画
 	function _ani(params) {
-		console.time('animate')
+		console.time("animate")
 
 		var img = params && params.img;
 		if (img) {
@@ -92,13 +92,13 @@
 				setTimeout(function(){bgm.play()}, 0);
 			}
 			// 绘制到canvas
-			var d = document.createElement('div'), w, h;
+			var d = document.createElement("div"), w, h;
 			params.parentElement = img.parentElement;
-			params.canvas = document.createElement('canvas');
-			params.ctx = params.canvas.getContext('2d');
+			params.canvas = document.createElement("canvas");
+			params.ctx = params.canvas.getContext("2d");
 			params.ctx.drawImage(img, 0, 0, w = params.width = params.canvas.width = img.width, h = params.height = params.canvas.height = img.height);
 			d.appendChild(params.canvas);
-			d.style.cssText = 'position:absolute;top:' + img.offsetTop + 'px;left:' + img.offsetLeft + 'px;width:' + w + 'px;height:' + h + 'px;overflow:hidden;';
+			d.style.cssText = "position:absolute;top:" + img.offsetTop + "px;left:" + img.offsetLeft + "px;width:" + w + "px;height:" + h + "px;overflow:hidden;";
 			params.parentElement.appendChild(d);
 			// 规范坐标
 			params.x = (params.x >= 0 ? params.x : w / 2) | 0;
@@ -107,11 +107,11 @@
 			if (params.target) {
 				img.src = params.target;
 			} else {
-				img.style.display = 'none';
+				img.style.display = "none";
 			}
 			// 执行动画
 			var callback = function() {
-				console.timeEnd('animate')
+				console.timeEnd("animate")
 
 				var _cb = params._cb;
 				// 防止多次触发回调
@@ -122,7 +122,7 @@
 					console.log(ex);
 				}
 				_cb && _cb.forEach && _cb.forEach(function(cb) {
-					typeof cb == 'function' && cb.call(img);
+					typeof cb == "function" && cb.call(img);
 				});
 			};
 			setTimeout(function(){
@@ -132,16 +132,16 @@
 	};
 	function _start(e) {
 		var img = e.target;
-		if (img.hasAttribute('data-ct-effect')) {
-			curIndex = img.getAttribute('data-ct-effect'), params = opts[curIndex] || {};
+		if (img.hasAttribute("data-ct-effect")) {
+			curIndex = img.getAttribute("data-ct-effect"), params = opts[curIndex] || {};
 			params.img = img;
 			params.$ = $;
 			params.$$ = $$;
 			// 只响应一次动画
-			img.removeAttribute('data-ct-effect');
+			img.removeAttribute("data-ct-effect");
 			// 获取参数
-			['animate', 'audio', 'target'].forEach(function(attr){
-				var a = img.getAttribute('data-ct-effect-' + attr);
+			["animate", "audio", "target"].forEach(function(attr){
+				var a = img.getAttribute("data-ct-effect-" + attr);
 				a && (params[attr] = a);
 			});
 			// 获取坐标
@@ -181,37 +181,37 @@
 	// 预处理参数
 	function _normalParam(img, params, cb) {
 		params || (params = {});
-		if (typeof params == 'function') {
+		if (typeof params == "function") {
 			params = {_cb: [params]};
 		} else {
 			params._cb = [];
-			typeof params.cb == 'function' && params._cb.push(params.cb);
-			typeof cb == 'function' && params._cb.push(cb);
+			typeof params.cb == "function" && params._cb.push(params.cb);
+			typeof cb == "function" && params._cb.push(cb);
 			delete params.cb;
 		}
-		img.then = function(cb){return typeof cb == 'function' && params._cb.push(cb), img};
+		img.then = function(cb){return typeof cb == "function" && params._cb.push(cb), img};
 		return params;
 	};
 	// 添加事件
-	doc.addEventListener('touchstart', _start);
-	doc.addEventListener('mousedown', _start);
-	doc.addEventListener('touchmove', _move);
-	doc.addEventListener('mousemove', _move);
-	doc.addEventListener('touchend', _end);
-	doc.addEventListener('mouseuo', _end);
+	doc.addEventListener("touchstart", _start);
+	doc.addEventListener("mousedown", _start);
+	doc.addEventListener("touchmove", _move);
+	doc.addEventListener("mousemove", _move);
+	doc.addEventListener("touchend", _end);
+	doc.addEventListener("mouseuo", _end);
 	// 添加外部调用接口
 	HTMLImageElement.prototype.initEffect = HTMLCanvasElement.prototype.initEffect = function(params, cb){
-		var img = this, e = img.getAttribute('data-ct-effect');
+		var img = this, e = img.getAttribute("data-ct-effect");
 		params = _normalParam(img, params, cb);
 		if (!e) {
 			e = opts.length;
-			img.setAttribute('data-ct-effect', e);
+			img.setAttribute("data-ct-effect", e);
 		}
-		['animate', 'audio', 'target'].forEach(function(attr){
-			params[attr] ? img.setAttribute('data-ct-effect-' + attr, params[attr]) : img.removeAttribute('data-ct-effect-' + attr);
+		["animate", "audio", "target"].forEach(function(attr){
+			params[attr] ? img.setAttribute("data-ct-effect-" + attr, params[attr]) : img.removeAttribute("data-ct-effect-" + attr);
 		});
 		opts[e] = params;
-		img.then = function(cb){return typeof cb == 'function' && params._cb.push(cb), img};
+		img.then = function(cb){return typeof cb == "function" && params._cb.push(cb), img};
 		return img;
 	};
 	HTMLImageElement.prototype.execEffect = HTMLCanvasElement.prototype.execEffect = function(params, cb){
@@ -222,7 +222,7 @@
 	};
 	// 注册动画接口
 	window.addImgEffect = function(name, ani) {
-		if (typeof ani == 'function') {
+		if (typeof ani == "function") {
 			(name instanceof Array ? name : [name]).forEach(function(n) {
 				_ef[n] = ani;
 			});
