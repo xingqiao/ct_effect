@@ -2,7 +2,7 @@
  * 星星特效
  * 	动画名	星星|star
  * 	初始化参数
- * 		count = 6,	// 星星数量基数
+ * 		count = 6	// 星星数量基数
  *
  * @author ct
  * @version 2015-09-24
@@ -11,7 +11,7 @@
 
 ;(function() {
 	var opts = {
-		count: 8,	// 星星数量基数
+		count: 8	// 星星数量基数
 	};
 	var c_bg = null,
 		c_light = null,
