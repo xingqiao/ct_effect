@@ -198,7 +198,7 @@
 	doc.addEventListener("touchmove", _move);
 	doc.addEventListener("mousemove", _move);
 	doc.addEventListener("touchend", _end);
-	doc.addEventListener("mouseuo", _end);
+	doc.addEventListener("mouseup", _end);
 	// 添加外部调用接口
 	HTMLImageElement.prototype.initEffect = HTMLCanvasElement.prototype.initEffect = function(params, cb){
 		var img = this, e = img.getAttribute("data-ct-effect");
