@@ -6,11 +6,14 @@ demo: http://y.qq.com/m/demo/ct_effect/demo.html
 
 已经实现的特效有:
 
-	玻璃破碎|brokenglass	ct_effect_brokenglass.js
-	百叶窗|blinds	ct_effect_blinds.js
-	溶解|dissolve	ct_effect_dissolve.js
-	平移|translate	ct_effect_translate.js
-	立方体|cube	ct_effect_cube.js
+| 特效 | js文件 |
+|-|-|
+| 玻璃破碎|brokenglass | ct_effect_brokenglass.js |
+| 百叶窗|blinds | ct_effect_blinds.js |
+| 溶解|dissolve | ct_effect_dissolve.js |
+| 平移|translate | ct_effect_translate.js |
+| 立方体|cube | ct_effect_cube.js |
+| 星星|star | ct_effect_star.js |
 
 调用方式
 
