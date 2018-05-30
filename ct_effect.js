@@ -3,24 +3,24 @@
  * 调用方式
  * 	1. 初始化方式调用，在点击时自动执行
  * 		img.initEffect({
- * 			animate: 'fadeout',	// 动画类型
- * 			target: 'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg',	// 替换的新图片
- * 			audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3'	// 音效
+ * 			animate: "fadeout",	// 动画类型
+ * 			target: "http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg",	// 替换的新图片
+ * 			audio: "http://i.gtimg.cn/music/common/upload/ct/broken.mp3"	// 音效
  * 		}).then(function() {
- * 			console.log('执行成功')
+ * 			console.log("执行成功")
  * 		})
  * 	2. 手动触发调用
  * 		img.execEffect({
- * 			animate: 'fadeout',	// 动画类型
- * 			target: 'http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg',	// 替换的新图片
- * 			audio: 'http://i.gtimg.cn/music/common/upload/ct/broken.mp3',	// 音效
+ * 			animate: "fadeout",	// 动画类型
+ * 			target: "http://i.gtimg.cn/music/common/upload/t_cm3_photo_publish/1432038769616126350.jpg",	// 替换的新图片
+ * 			audio: "http://i.gtimg.cn/music/common/upload/ct/broken.mp3",	// 音效
  * 			x: e.offsetX,	// x坐标
  * 			y: e.offsetY	// y坐标
  * 		}).then(function() {
- * 			console.log('执行成功')
+ * 			console.log("执行成功")
  * 		})
  * 添加特效动画
- * 	window.addImgEffect('动画名', function(callback){[动画处理函数]})
+ * 	window.addImgEffect("动画名", function(callback){[动画处理函数]})
  * 		this.canvas	加载当前图片
  * 		this.img	加载下一张图片
  * 		this.parentElement
