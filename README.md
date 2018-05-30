@@ -2,7 +2,7 @@
 
 支持img和canvas标签
 
-demo: http://y.qq.com/m/demo/ct_effect/demo.html
+demo: http://ctchen.cn/static/lab/ct_effect/demo.html
 
 已经实现的特效有:
 
