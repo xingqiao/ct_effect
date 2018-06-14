@@ -273,13 +273,13 @@ function pageInit() {
     var img = $(".pic img"), cur = imglist.length * Math.random() | 0, ef;
     img.src = imglist[cur];
     var efname = $("#js_efname"), efopts = $("#js_opts"), h = "", df = getParameter("ef");
-    map_ef[df] || (df = "fadeout");
+    map_ef[df] || (df = "brokenglass");
     ef = map_ef[df] || {};
     for (var p in map_ef) {
         h += '<option value="' + encodeHTML(p) + '">' + encodeHTML(map_ef[p].params.animate) + '</option>';
     }
     efname.innerHTML = h;
-    efname.value = "brokenglass";
+    efname.value = df;
     efname.addEventListener("change", function(){
         ef = map_ef[this.value] || {};
         if (ef && ef.opts) {
