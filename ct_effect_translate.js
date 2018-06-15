@@ -17,10 +17,9 @@
 
 ; (function (window, document) {
     var opts = {
-        direct: 'left',	// 翻转方向
-        'timing-function': 'ease-in',	// 翻转方向
-        count: 10,	// 窗叶数
-        duration: 800,	// 翻转一片所需的时间
+        direct: 'left',	// 平移方向
+        'timing-function': 'ease-in',	// 变换的速率变化
+        duration: 800,	// 持续时间
         perspective: 500	// 视点距离
     };
     function _translate(params, callback) {
