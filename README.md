@@ -33,7 +33,7 @@ demo: http://ctchen.cn/static/lab/ct_effect/demo.html
 ### 玻璃破碎 / brokenglass
 
 | 参数名 | 说明 | 默认值 |
-|-|-|-|-|
+|-|-|-|
 | crack | 径向裂缝基数 | 5 |
 | turn | 环状裂缝圈数 | 5 |
 | duration | 掉落时间 | 1500 |
@@ -42,7 +42,7 @@ demo: http://ctchen.cn/static/lab/ct_effect/demo.html
 ### 百叶窗 / blinds
 
 | 参数名 | 说明 | 默认值 |
-|-|-|-|-|
+|-|-|-|
 | direct | 翻转方向，不传该参数时会根据滑动方向自动判断，可选值top、bottom、left、right | 点击时默认为left |
 | count | 窗叶数量 | 10 |
 | origin | 翻转方向，location：从点击处开始翻转，edge：从边缘开始翻转 | location |
@@ -50,7 +50,7 @@ demo: http://ctchen.cn/static/lab/ct_effect/demo.html
 ### 溶解 / dissolve
 
 | 参数名 | 说明 | 默认值 |
-|-|-|-|-|
+|-|-|-|
 | size | 颗粒大小 | 10 |
 | duration | 持续时间 | 1500 |
 | direct | 溶解方向，可选值random、top、bottom、left、right、point | random |
@@ -58,7 +58,7 @@ demo: http://ctchen.cn/static/lab/ct_effect/demo.html
 ### 平移 / translate
 
 | 参数名 | 说明 | 默认值 |
-|-|-|-|-|
+|-|-|-|
 | direct | 平移方向，不传该参数时会根据滑动方向自动判断，可选值top、bottom、left、right | 点击时默认为left |
 | mode | 模式，可选值 2d\3d | 3d |
 | duration | 持续时间 | 1500 |
@@ -67,14 +67,14 @@ demo: http://ctchen.cn/static/lab/ct_effect/demo.html
 ### 立方体 / cube
 
 | 参数名 | 说明 | 默认值 |
-|-|-|-|-|
+|-|-|-|
 | direct | 平移方向，不传该参数时会根据滑动方向自动判断，可选值top、bottom、left、right | 点击时默认为left |
 | duration | 持续时间 | 1500 |
 
 ### 星星 / star
 
 | 参数名 | 说明 | 默认值 |
-|-|-|-|-|
+|-|-|-|
 | count | 星星数量基数 | 6 |
 
 ## 调用方式
