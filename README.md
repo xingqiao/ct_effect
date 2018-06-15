@@ -79,6 +79,10 @@ demo: http://ctchen.cn/static/lab/ct_effect/demo.html
 
 ## 调用方式
 
+引入框架js文件 *ct_effect.js*
+
+再引入对应的动画特效js文件
+
 ### 1. 初始化方式调用，在点击时自动执行
 
 ```javascript
